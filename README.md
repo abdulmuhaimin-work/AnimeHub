@@ -2,7 +2,7 @@
 
 A modern, responsive anime discovery web application built with React, TypeScript, and the Jikan API.
 
-![AnimeHub Preview](https://via.placeholder.com/800x400?text=AnimeHub+Preview)
+![AnimeHub Preview](https://raw.githubusercontent.com/abdulmuhaimin-work/AnimeHub/refs/heads/main/public/Preview.png)
 
 ## ✨ Features
 
