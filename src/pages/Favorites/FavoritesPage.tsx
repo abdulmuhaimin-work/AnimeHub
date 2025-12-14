@@ -1,12 +1,20 @@
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Heart, Star, Play, Tv, Trash2, ArrowRight, Bookmark } from 'lucide-react';
+import { Heart, Star, Play, Tv, Trash2, ArrowRight, Bookmark, Filter, ArrowUpDown, TrendingUp } from 'lucide-react';
 import { useFavoritesStore } from '../../store';
 import { PageContainer } from '../../components/layout/PageContainer';
 import { Button } from '../../components/ui/Button';
+import type { FavoriteAnime } from '../../types/anime';
+
+type SortOption = 'date' | 'score' | 'title' | 'episodes';
+type FilterType = 'all' | 'TV' | 'Movie' | 'OVA' | 'ONA' | 'Special';
 
 export function FavoritesPage() {
   const { favorites, removeFavorite, clearFavorites } = useFavoritesStore();
+  const [sortBy, setSortBy] = useState<SortOption>('date');
+  const [filterType, setFilterType] = useState<FilterType>('all');
+  const [minScore, setMinScore] = useState<number>(0);
 
   if (favorites.length === 0) {
     return (
@@ -39,9 +47,130 @@ export function FavoritesPage() {
     );
   }
 
+  // Filter and sort favorites
+  const filteredAndSorted = useMemo(() => {
+    let filtered = favorites.filter(fav => {
+      if (filterType !== 'all' && fav.type !== filterType) return false;
+      if (fav.score && fav.score < minScore) return false;
+      return true;
+    });
+
+    const sorted = [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case 'date':
+          return b.addedAt - a.addedAt;
+        case 'score':
+          return (b.score || 0) - (a.score || 0);
+        case 'title':
+          return a.title.localeCompare(b.title);
+        case 'episodes':
+          return (b.episodes || 0) - (a.episodes || 0);
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  }, [favorites, sortBy, filterType, minScore]);
+
+  // Calculate genre distribution
+  const genreStats = useMemo(() => {
+    const genreMap = new Map<string, number>();
+    favorites.forEach(fav => {
+      // Note: FavoriteAnime doesn't have genres, but we can show type distribution
+      const type = fav.type || 'Unknown';
+      genreMap.set(type, (genreMap.get(type) || 0) + 1);
+    });
+    return Array.from(genreMap.entries())
+      .map(([type, count]) => ({ type, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [favorites]);
+
+  // Calculate average score
+  const avgScore = useMemo(() => {
+    const scores = favorites.filter(f => f.score).map(f => f.score!);
+    return scores.length > 0 
+      ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)
+      : '0';
+  }, [favorites]);
+
   return (
-    <PageContainer>
-      {/* Header */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+      <div className="flex gap-6 lg:gap-8">
+        {/* Left Sidebar - Filters & Sort */}
+        <aside className="hidden lg:block w-64 flex-shrink-0">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="sticky top-6 space-y-4"
+        >
+          <div className="card p-4">
+            <div className="flex items-center gap-2 mb-4">
+              <Filter size={18} className="text-accent-500" />
+              <h2 className="font-bold text-surface-800">Filter & Sort</h2>
+            </div>
+
+            {/* Sort */}
+            <div className="mb-4">
+              <label className="text-sm font-semibold text-surface-700 mb-2 block">
+                Sort by
+              </label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="w-full px-3 py-2 bg-white border-2 border-surface-300 rounded-xl text-surface-800 text-sm focus:outline-none focus:border-accent-400"
+              >
+                <option value="date">Date Added</option>
+                <option value="score">Score</option>
+                <option value="title">Title</option>
+                <option value="episodes">Episodes</option>
+              </select>
+            </div>
+
+            {/* Filter by Type */}
+            <div className="mb-4">
+              <label className="text-sm font-semibold text-surface-700 mb-2 block">
+                Type
+              </label>
+              <div className="space-y-1">
+                {(['all', 'TV', 'Movie', 'OVA', 'ONA', 'Special'] as FilterType[]).map(type => (
+                  <button
+                    key={type}
+                    onClick={() => setFilterType(type)}
+                    className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                      filterType === type
+                        ? 'bg-accent-100 text-accent-700 font-semibold'
+                        : 'text-surface-600 hover:bg-surface-100'
+                    }`}
+                  >
+                    {type === 'all' ? 'All Types' : type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Min Score Filter */}
+            <div>
+              <label className="text-sm font-semibold text-surface-700 mb-2 block">
+                Min Score: {minScore}
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                step="0.5"
+                value={minScore}
+                onChange={(e) => setMinScore(parseFloat(e.target.value))}
+                className="w-full"
+              />
+            </div>
+          </div>
+        </motion.div>
+      </aside>
+
+        {/* Main Content */}
+        <div className="flex-1 min-w-0">
+          {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -100,7 +229,26 @@ export function FavoritesPage() {
 
       {/* Favorites List */}
       <div className="space-y-3">
-        {favorites.map((anime, index) => (
+        {filteredAndSorted.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12"
+          >
+            <p className="text-surface-600">No favorites match your filters.</p>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setFilterType('all');
+                setMinScore(0);
+              }}
+              className="mt-4"
+            >
+              Clear Filters
+            </Button>
+          </motion.div>
+        ) : (
+          filteredAndSorted.map((anime, index) => (
           <motion.div
             key={anime.mal_id}
             initial={{ opacity: 0, x: -20 }}
@@ -174,8 +322,82 @@ export function FavoritesPage() {
               </div>
             </Link>
           </motion.div>
-        ))}
+        )))}
+          </div>
+        </div>
+
+        {/* Right Sidebar - Stats */}
+        <aside className="hidden xl:block w-64 flex-shrink-0">
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="sticky top-6 space-y-4"
+        >
+          <div className="card p-4">
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp size={18} className="text-primary-500" />
+              <h2 className="font-bold text-surface-800">Statistics</h2>
+            </div>
+
+            {/* Average Score */}
+            <div className="mb-4 p-3 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border-2 border-yellow-200">
+              <div className="text-sm text-surface-600 mb-1">Average Score</div>
+              <div className="text-2xl font-bold text-yellow-600">{avgScore}</div>
+            </div>
+
+            {/* Type Distribution */}
+            <div>
+              <div className="text-sm font-semibold text-surface-700 mb-3">Type Distribution</div>
+              <div className="space-y-2">
+                {genreStats.slice(0, 5).map(({ type, count }) => {
+                  const percentage = (count / favorites.length) * 100;
+                  return (
+                    <div key={type}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-surface-600">{type}</span>
+                        <span className="text-surface-800 font-semibold">{count}</span>
+                      </div>
+                      <div className="h-2 bg-surface-200 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${percentage}%` }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
+                          className="h-full bg-gradient-to-r from-primary-400 to-accent-400"
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="card p-4">
+            <h3 className="font-semibold text-surface-800 mb-3">Quick Actions</h3>
+            <div className="space-y-2">
+              <Link to="/">
+                <Button variant="ghost" className="w-full justify-start" rightIcon={<ArrowRight size={16} />}>
+                  Browse More
+                </Button>
+              </Link>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setSortBy('score');
+                  setFilterType('all');
+                  setMinScore(8);
+                }}
+                className="w-full justify-start"
+                rightIcon={<Star size={16} />}
+              >
+                Top Rated Only
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      </aside>
       </div>
-    </PageContainer>
+    </div>
   );
 }
