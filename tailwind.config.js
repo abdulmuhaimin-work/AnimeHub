@@ -7,30 +7,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Anime-inspired vibrant colors
+        // Anime-inspired vibrant colors - Green & Blue theme
         primary: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#166534',
+          900: '#14532d',
         },
         accent: {
-          50: '#fdf2f8',
-          100: '#fce7f3',
-          200: '#fbcfe8',
-          300: '#f9a8d4',
-          400: '#f472b6',
-          500: '#ec4899',
-          600: '#db2777',
-          700: '#be185d',
-          800: '#9d174d',
-          900: '#831843',
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
         },
         // Light theme neutrals
         surface: {
@@ -84,8 +84,8 @@ export default {
         },
       },
       boxShadow: {
-        'kawaii': '0 4px 14px 0 rgba(236, 72, 153, 0.15)',
-        'kawaii-lg': '0 10px 40px -10px rgba(236, 72, 153, 0.2)',
+        'kawaii': '0 4px 14px 0 rgba(34, 197, 94, 0.15)',
+        'kawaii-lg': '0 10px 40px -10px rgba(34, 197, 94, 0.2)',
         'card': '0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 24px rgba(0, 0, 0, 0.04)',
         'card-hover': '0 8px 30px rgba(0, 0, 0, 0.12)',
       },

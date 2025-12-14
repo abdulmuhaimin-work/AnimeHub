@@ -71,7 +71,7 @@ export function HomePage() {
             {/* Meteor Shower Background */}
             {[...Array(12)].map((_, i) => {
               // Constrain to stay within viewport (max ~500px from center)
-              const maxOffset = 500;
+              const maxOffset = 700;
               const startX = -maxOffset + (i % 6) * (maxOffset * 2 / 5);
               const startY = -100 - (Math.floor(i / 6) * 60);
               const endX = startX + 400; // Shorter horizontal travel
@@ -97,7 +97,7 @@ export function HomePage() {
                     opacity: [0, 0.8, 0.8, 0],
                     x: [startX, endX],
                     y: [startY, endY],
-                    rotate: angle,
+                    rotate: [angle, angle + 180],
                   }}
                   transition={{ 
                     duration: duration,
@@ -110,9 +110,9 @@ export function HomePage() {
                     left: '50%',
                     width: '3px',
                     height: '80px',
-                    background: `linear-gradient(${angle + 90}deg, transparent, #ec4899, #6366f1, transparent)`,
+                    background: `linear-gradient(${angle + 90}deg, transparent, #22c55e, #3b82f6, transparent)`,
                     borderRadius: '50%',
-                    boxShadow: '0 0 10px rgba(236, 72, 153, 0.6), 0 0 20px rgba(99, 102, 241, 0.4)',
+                    boxShadow: '0 0 10px rgba(34, 197, 94, 0.6), 0 0 20px rgba(59, 130, 246, 0.4)',
                     transformOrigin: 'top center',
                   }}
                 />
