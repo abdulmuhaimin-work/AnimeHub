@@ -1,11 +1,10 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Heart, Star, Play, Tv, Trash2, ArrowRight, Bookmark, Filter, ArrowUpDown, TrendingUp } from 'lucide-react';
+import { Heart, Star, Play, Tv, Trash2, ArrowRight, Bookmark, Filter, TrendingUp } from 'lucide-react';
 import { useFavoritesStore } from '../../store';
 import { PageContainer } from '../../components/layout/PageContainer';
 import { Button } from '../../components/ui/Button';
-import type { FavoriteAnime } from '../../types/anime';
 
 type SortOption = 'date' | 'score' | 'title' | 'episodes';
 type FilterType = 'all' | 'TV' | 'Movie' | 'OVA' | 'ONA' | 'Special';
