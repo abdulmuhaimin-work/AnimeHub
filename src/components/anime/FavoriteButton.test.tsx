@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent } from '../../test/test-utils';
 import { FavoriteButton } from './FavoriteButton';
 import { useFavoritesStore } from '../../store';
@@ -69,13 +69,13 @@ describe('FavoriteButton', () => {
 
   it('should show label when showLabel prop is true', () => {
     render(<FavoriteButton anime={mockAnime} showLabel />);
-    expect(screen.getByText('Favorite')).toBeInTheDocument();
+    expect(screen.getByText('Save')).toBeInTheDocument();
   });
 
-  it('should show "Favorited" label when already favorited', () => {
+  it('should show "Saved" label when already favorited', () => {
     useFavoritesStore.getState().addFavorite(mockAnime);
     render(<FavoriteButton anime={mockAnime} showLabel />);
-    expect(screen.getByText('Favorited')).toBeInTheDocument();
+    expect(screen.getByText('Saved')).toBeInTheDocument();
   });
 
   it('should stop event propagation when clicked', () => {

@@ -8,13 +8,16 @@ A modern, responsive anime discovery web application built with React, TypeScrip
 
 - **Anime Listings** - Browse thousands of anime titles with infinite scroll pagination
 - **Search** - Search anime by title with debounced search
-- **Genre Filtering** - Filter anime by one or more genres
+- **Genre Filtering** - Filter anime by one or more genres with responsive mobile/desktop UI
 - **Anime Details** - Detailed anime pages with synopsis, stats, and trailer links
-- **Favorites** - Save your favorite anime to localStorage
+- **Favorites** - Save your favorite anime to localStorage with persistent storage
 - **Deep Linking** - Share anime pages and filtered search results via URL
 - **Responsive Design** - Works beautifully on mobile, tablet, and desktop
-- **Loading States** - Skeleton loaders for a polished UX
+- **Animated Hero Section** - Meteor shower animation with twinkling stars
+- **Interactive Cards** - Hover over anime cards to see synopsis and details
+- **Loading States** - Skeleton loaders that match actual card structure
 - **Error Handling** - Graceful error boundaries and API error handling
+- **Anime-Inspired Design** - Light, cartoonish theme with vibrant colors
 
 ## 🛠️ Tech Stack
 
@@ -78,14 +81,14 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 20.10.0+ (tested with 20.10.0)
 - npm or yarn
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/animehub.git
+git clone https://github.com/abdulmuhaimin-work/AnimeHub.git
 cd animehub
 
 # Install dependencies
@@ -109,21 +112,31 @@ npm run dev
 
 ## 🎨 Design Decisions
 
+### Theme & Design
+- **Light, Cartoonish Anime Style**: Vibrant color palette with pink and purple accents
+- **Custom Tailwind Theme**: Extended color system with anime-inspired pastels
+- **Animated Background**: Meteor shower effect in hero section with twinkling stars
+- **Interactive Elements**: Hover effects on anime cards reveal synopsis
+
 ### State Management
 - **Server State (React Query)**: Handles API data with caching, refetching, and pagination
 - **Client State (Zustand)**: Manages favorites with localStorage persistence
+- **URL State**: Search and filter parameters synced with URL for deep linking
 
 ### Code Splitting
 - Pages are lazy-loaded using `React.lazy()` for better initial load performance
+- Route-based code splitting with Suspense boundaries
 
 ### API Rate Limiting
 - Jikan API has a 3 req/sec rate limit
-- Built-in request throttling to prevent 429 errors
-- Automatic retry with exponential backoff
+- Built-in request throttling via Axios interceptors to prevent 429 errors
+- Automatic retry logic for rate-limited requests
 
 ### Responsive Design
 - Mobile-first approach with Tailwind CSS
 - Grid adjusts from 2 columns (mobile) to 6 columns (desktop)
+- Genre filter uses bottom sheet on mobile, dropdown on desktop
+- All components tested for mobile, tablet, and desktop breakpoints
 
 ## 🧪 Testing
 
@@ -142,8 +155,9 @@ npm run test
 
 ### Test Coverage
 - Unit tests for Zustand store
-- Component tests for UI primitives
+- Component tests for UI primitives (Button, Badge, etc.)
 - API function tests with mocked axios
+- Test utilities and setup for React Testing Library
 
 ## 📱 Routes
 
@@ -164,9 +178,25 @@ This app uses the [Jikan API](https://docs.api.jikan.moe/) - an unofficial MyAni
 - `GET /anime/{id}` - Get anime details
 - `GET /genres/anime` - Get anime genres
 
+### API Client Features
+- Centralized Axios instance with base URL configuration
+- Request interceptor for rate limiting (3 requests/second)
+- Response interceptor for error handling and retry logic
+- Type-safe API functions with TypeScript interfaces
+
 ## 📄 License
 
 MIT License - feel free to use this project for learning or as a template!
+
+---
+
+## 🏗️ Architecture Highlights
+
+- **Component-Based Architecture**: Modular, reusable components organized by domain
+- **Custom Hooks Pattern**: API logic abstracted into reusable React Query hooks
+- **Error Boundaries**: Global error handling with graceful fallbacks
+- **Performance Optimized**: Code splitting, memoization, and efficient data fetching
+- **Type Safety**: Full TypeScript coverage with strict type checking
 
 ---
 
