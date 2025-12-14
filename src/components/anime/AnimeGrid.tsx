@@ -1,10 +1,15 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
+import { AlertCircle, Search } from 'lucide-react';
 import { AnimeCard } from './AnimeCard';
 import { AnimeGridSkeleton } from '../ui/Skeleton';
 import type { Anime } from '../../types/anime';
+
+// ===========================================
+// Loading GIF Configuration
+// ===========================================
+const LOADING_GIF_URL = '/inunaka-akari.gif';
 
 interface AnimeGridProps {
   animes: Anime[];
@@ -28,7 +33,6 @@ export function AnimeGrid({
     rootMargin: '200px',
   });
 
-  // Trigger infinite scroll
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage && fetchNextPage) {
       fetchNextPage();
@@ -42,15 +46,19 @@ export function AnimeGrid({
   if (error) {
     return (
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
         className="flex flex-col items-center justify-center py-20 text-center"
       >
-        <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
-          <span className="text-3xl">😵</span>
+        <div className="w-20 h-20 rounded-3xl bg-red-100 
+                       flex items-center justify-center mb-6 border-2 border-red-200">
+          <AlertCircle className="w-10 h-10 text-red-500" />
         </div>
-        <h3 className="text-xl font-semibold text-white mb-2">Something went wrong</h3>
-        <p className="text-dark-300 max-w-md">{error.message}</p>
+        <h3 className="text-2xl font-bold text-surface-800 mb-2">
+          Oops! Something Went Wrong
+        </h3>
+        <p className="text-surface-600 max-w-md mb-2">{error.message}</p>
+        <p className="text-surface-400 text-sm">Please try again later</p>
       </motion.div>
     );
   }
@@ -58,15 +66,16 @@ export function AnimeGrid({
   if (animes.length === 0) {
     return (
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         className="flex flex-col items-center justify-center py-20 text-center"
       >
-        <div className="w-20 h-20 rounded-full bg-primary-500/10 flex items-center justify-center mb-4">
-          <span className="text-3xl">🔍</span>
+        <div className="w-20 h-20 rounded-3xl bg-accent-100 
+                       flex items-center justify-center mb-6 border-2 border-accent-200">
+          <Search className="w-10 h-10 text-accent-500" />
         </div>
-        <h3 className="text-xl font-semibold text-white mb-2">No anime found</h3>
-        <p className="text-dark-300">Try adjusting your search or filters</p>
+        <h3 className="text-2xl font-bold text-surface-800 mb-2">No Results Found</h3>
+        <p className="text-surface-600">Try adjusting your search or filters</p>
       </motion.div>
     );
   }
@@ -79,17 +88,21 @@ export function AnimeGrid({
         ))}
       </div>
 
-      {/* Infinite Scroll Trigger */}
+      {/* Infinite Scroll Trigger with anime GIF */}
       {hasNextPage && (
         <div ref={loadMoreRef} className="flex justify-center py-10">
           {isFetchingNextPage && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center gap-3 text-dark-300"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center gap-3"
             >
-              <Loader2 className="animate-spin" size={24} />
-              <span>Loading more anime...</span>
+              <img 
+                src={LOADING_GIF_URL} 
+                alt="Loading more..." 
+                className="w-16 h-16 object-contain"
+              />
+              <span className="text-surface-600 text-sm font-medium">Loading more anime...</span>
             </motion.div>
           )}
         </div>
@@ -97,4 +110,3 @@ export function AnimeGrid({
     </>
   );
 }
-

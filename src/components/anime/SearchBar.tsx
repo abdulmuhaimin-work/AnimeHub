@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { Input } from '../ui/Input';
@@ -16,32 +16,50 @@ export function SearchBar({
 }: SearchBarProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get('q') || '');
+  const [query, setQuery] = useState(() => searchParams.get('q') || '');
   const inputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const isFirstRender = useRef(true);
 
-  // Update URL params with debounce
+  // Sync query from URL on mount only
   useEffect(() => {
+    const urlQuery = searchParams.get('q') || '';
+    if (urlQuery !== query && isFirstRender.current) {
+      setQuery(urlQuery);
+    }
+    isFirstRender.current = false;
+  }, [searchParams]);
+
+  // Update URL with debounce when query changes (user typing)
+  const updateUrl = useCallback((searchQuery: string) => {
+    const params = new URLSearchParams(window.location.search);
+    
+    if (searchQuery.trim()) {
+      params.set('q', searchQuery.trim());
+    } else {
+      params.delete('q');
+    }
+
+    const newSearch = params.toString();
+    navigate(newSearch ? `/?${newSearch}` : '/', { replace: true });
+    
+    if (onSearch) {
+      onSearch(searchQuery.trim());
+    }
+  }, [navigate, onSearch]);
+
+  useEffect(() => {
+    // Skip the first render to avoid navigating on mount
+    if (isFirstRender.current) {
+      return;
+    }
+
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
     debounceRef.current = setTimeout(() => {
-      const params = new URLSearchParams(searchParams);
-      
-      if (query.trim()) {
-        params.set('q', query.trim());
-      } else {
-        params.delete('q');
-      }
-
-      // Only navigate if we're on the home page or if there's a query
-      const newSearch = params.toString();
-      navigate(`/?${newSearch}`, { replace: true });
-      
-      if (onSearch) {
-        onSearch(query.trim());
-      }
+      updateUrl(query);
     }, 400);
 
     return () => {
@@ -49,7 +67,7 @@ export function SearchBar({
         clearTimeout(debounceRef.current);
       }
     };
-  }, [query, navigate, searchParams, onSearch]);
+  }, [query, updateUrl]);
 
   const handleClear = () => {
     setQuery('');
@@ -64,12 +82,12 @@ export function SearchBar({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder={placeholder}
-        leftIcon={<Search size={20} />}
+        leftIcon={<Search size={20} className="text-surface-400" />}
         rightIcon={
           query && (
             <button
               onClick={handleClear}
-              className="p-1 hover:bg-dark-600 rounded-full transition-colors"
+              className="p-1 hover:bg-surface-100 rounded-lg transition-colors"
               aria-label="Clear search"
             >
               <X size={16} />
@@ -80,4 +98,3 @@ export function SearchBar({
     </div>
   );
 }
-

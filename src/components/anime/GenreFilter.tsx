@@ -47,7 +47,7 @@ export function GenreFilter({ selectedGenres, onGenresChange }: GenreFilterProps
       >
         Genres
         {selectedGenres.length > 0 && (
-          <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary-500 text-white text-xs rounded-full flex items-center justify-center">
+          <span className="absolute -top-2 -right-2 w-5 h-5 bg-accent-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-sm">
             {selectedGenres.length}
           </span>
         )}
@@ -61,39 +61,48 @@ export function GenreFilter({ selectedGenres, onGenresChange }: GenreFilterProps
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40"
+              className="fixed inset-0 z-40 bg-surface-900/20 md:bg-transparent"
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Dropdown */}
+            {/* Mobile: Bottom sheet / Desktop: Dropdown */}
             <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.15 }}
-              className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto
-                         bg-dark-800 border border-dark-600/50 rounded-xl 
-                         shadow-2xl z-50"
+              className="fixed inset-x-4 bottom-4 md:absolute md:inset-auto md:right-0 md:bottom-auto md:mt-2 
+                        w-auto md:w-80 max-h-[70vh] md:max-h-96 overflow-y-auto
+                        bg-white border-2 border-surface-200 rounded-3xl 
+                        shadow-xl z-50"
             >
               {/* Header */}
-              <div className="sticky top-0 bg-dark-800 border-b border-dark-600/50 p-4 flex items-center justify-between">
-                <h3 className="font-semibold text-white">Filter by Genre</h3>
-                {selectedGenres.length > 0 && (
+              <div className="sticky top-0 bg-white border-b border-surface-200 p-4 flex items-center justify-between rounded-t-3xl">
+                <h3 className="font-bold text-surface-800">Filter by Genre</h3>
+                <div className="flex items-center gap-2">
+                  {selectedGenres.length > 0 && (
+                    <button
+                      onClick={clearGenres}
+                      className="text-sm text-surface-600 hover:text-accent-600 flex items-center gap-1 font-medium"
+                    >
+                      <X size={14} />
+                      Clear
+                    </button>
+                  )}
                   <button
-                    onClick={clearGenres}
-                    className="text-sm text-dark-300 hover:text-white flex items-center gap-1"
+                    onClick={() => setIsOpen(false)}
+                    className="md:hidden p-1 text-surface-400 hover:text-surface-600 rounded-lg hover:bg-surface-100"
                   >
-                    <X size={14} />
-                    Clear all
+                    <X size={20} />
                   </button>
-                )}
+                </div>
               </div>
 
               {/* Genres Grid */}
               <div className="p-4">
                 {isLoading ? (
                   <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full" />
+                    <div className="animate-spin w-6 h-6 border-2 border-accent-500 border-t-transparent rounded-full" />
                   </div>
                 ) : (
                   <div className="flex flex-wrap gap-2">
@@ -104,11 +113,11 @@ export function GenreFilter({ selectedGenres, onGenresChange }: GenreFilterProps
                           key={genre.mal_id}
                           onClick={() => toggleGenre(genre.mal_id)}
                           className={`
-                            px-3 py-1.5 rounded-full text-sm font-medium
+                            px-3 py-1.5 rounded-xl text-sm font-semibold
                             transition-all duration-200
                             ${isSelected
-                              ? 'bg-primary-600 text-white'
-                              : 'bg-dark-700 text-dark-200 hover:bg-dark-600 hover:text-white'
+                              ? 'bg-accent-500 text-white shadow-kawaii'
+                              : 'bg-surface-100 text-surface-600 hover:bg-accent-100 hover:text-accent-600'
                             }
                           `}
                         >
@@ -122,9 +131,9 @@ export function GenreFilter({ selectedGenres, onGenresChange }: GenreFilterProps
 
               {/* Selected Summary */}
               {selectedGenreNames.length > 0 && (
-                <div className="sticky bottom-0 bg-dark-800 border-t border-dark-600/50 p-4">
-                  <p className="text-sm text-dark-300">
-                    Selected: <span className="text-white">{selectedGenreNames.join(', ')}</span>
+                <div className="sticky bottom-0 bg-surface-50 border-t border-surface-200 p-4 rounded-b-3xl">
+                  <p className="text-sm text-surface-600">
+                    Selected: <span className="text-surface-800 font-medium">{selectedGenreNames.join(', ')}</span>
                   </p>
                 </div>
               )}
@@ -135,4 +144,3 @@ export function GenreFilter({ selectedGenres, onGenresChange }: GenreFilterProps
     </div>
   );
 }
-

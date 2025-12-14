@@ -39,22 +39,22 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="min-h-[400px] flex items-center justify-center p-8">
           <div className="text-center max-w-md">
-            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-red-500/10 
-                          flex items-center justify-center">
-              <AlertTriangle className="w-8 h-8 text-red-400" />
+            <div className="w-20 h-20 mx-auto mb-6 rounded-3xl bg-red-100 
+                          flex items-center justify-center border-2 border-red-200">
+              <AlertTriangle className="w-10 h-10 text-red-500" />
             </div>
             
-            <h2 className="text-2xl font-bold text-white mb-3">
-              Oops! Something went wrong
+            <h2 className="text-2xl font-display font-bold text-surface-800 mb-3">
+              Oops! Something Went Wrong
             </h2>
             
-            <p className="text-dark-300 mb-6">
-              We encountered an unexpected error. Please try again.
+            <p className="text-surface-600 mb-6">
+              An unexpected error occurred. Please try again.
             </p>
 
             {this.state.error && (
-              <div className="mb-6 p-4 bg-dark-800 rounded-lg border border-dark-600/50 text-left">
-                <code className="text-sm text-red-400 break-all">
+              <div className="mb-6 p-4 bg-red-50 rounded-2xl border-2 border-red-100 text-left">
+                <code className="text-sm text-red-600 break-all">
                   {this.state.error.message}
                 </code>
               </div>
@@ -74,4 +74,3 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-

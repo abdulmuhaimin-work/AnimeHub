@@ -9,11 +9,11 @@ interface BadgeProps {
 }
 
 const variants: Record<BadgeVariant, string> = {
-  default: 'bg-dark-600/80 text-dark-100',
-  primary: 'bg-primary-600/20 text-primary-300 border border-primary-500/30',
-  accent: 'bg-accent-600/20 text-accent-300 border border-accent-500/30',
-  success: 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/30',
-  warning: 'bg-amber-600/20 text-amber-300 border border-amber-500/30',
+  default: 'bg-white/90 text-surface-700 backdrop-blur-sm',
+  primary: 'bg-primary-100 text-primary-700 border border-primary-200',
+  accent: 'bg-accent-100 text-accent-700 border border-accent-200',
+  success: 'bg-emerald-100 text-emerald-700 border border-emerald-200',
+  warning: 'bg-amber-100 text-amber-700 border border-amber-200',
 };
 
 export function Badge({ children, variant = 'default', className = '' }: BadgeProps) {
@@ -21,7 +21,7 @@ export function Badge({ children, variant = 'default', className = '' }: BadgePr
     <span
       className={`
         inline-flex items-center px-2.5 py-1 
-        text-xs font-medium rounded-full
+        text-xs font-semibold rounded-xl
         ${variants[variant]}
         ${className}
       `}
@@ -30,4 +30,3 @@ export function Badge({ children, variant = 'default', className = '' }: BadgePr
     </span>
   );
 }
-

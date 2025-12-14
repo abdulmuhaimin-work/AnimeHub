@@ -11,7 +11,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="relative">
         {leftIcon && (
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-400">
             {leftIcon}
           </div>
         )}
@@ -21,18 +21,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             input
             ${leftIcon ? 'pl-12' : ''}
             ${rightIcon ? 'pr-12' : ''}
-            ${error ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : ''}
+            ${error ? 'border-red-400 focus:border-red-400 focus:ring-red-100' : ''}
             ${className}
           `}
           {...props}
         />
         {rightIcon && (
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-400">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-surface-400">
             {rightIcon}
           </div>
         )}
         {error && (
-          <p className="mt-1.5 text-sm text-red-400">{error}</p>
+          <p className="mt-1.5 text-sm text-red-500 font-medium">{error}</p>
         )}
       </div>
     );
@@ -40,4 +40,3 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 
 Input.displayName = 'Input';
-

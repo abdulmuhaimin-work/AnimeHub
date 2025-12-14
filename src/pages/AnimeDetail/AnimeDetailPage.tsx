@@ -39,11 +39,11 @@ export function AnimeDetailPage() {
     return (
       <PageContainer>
         <div className="text-center py-20">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-500/10 flex items-center justify-center">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-3xl bg-red-100 flex items-center justify-center border-2 border-red-200">
             <span className="text-4xl">😢</span>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-3">Anime Not Found</h1>
-          <p className="text-dark-300 mb-6">
+          <h1 className="text-2xl font-display font-bold text-surface-800 mb-3">Anime Not Found</h1>
+          <p className="text-surface-600 mb-6">
             {error?.message || "We couldn't find the anime you're looking for."}
           </p>
           <Button onClick={() => navigate('/')}>
@@ -61,14 +61,14 @@ export function AnimeDetailPage() {
     <>
       {/* Hero Background */}
       <div 
-        className="absolute inset-x-0 top-0 h-[500px] -z-10"
+        className="absolute inset-x-0 top-0 h-[400px] -z-10"
         style={{
           backgroundImage: `url(${imageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-dark-900/60 via-dark-900/90 to-dark-900" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/80 to-white" />
       </div>
 
       <PageContainer className="pt-4">
@@ -77,7 +77,7 @@ export function AnimeDetailPage() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          <Button variant="ghost" onClick={() => navigate(-1)} className="mb-6">
+          <Button variant="secondary" onClick={() => navigate(-1)} className="mb-6">
             <ArrowLeft size={18} className="mr-2" />
             Back
           </Button>
@@ -96,7 +96,7 @@ export function AnimeDetailPage() {
               <img
                 src={imageUrl}
                 alt={anime.title}
-                className="w-64 md:w-80 rounded-2xl shadow-2xl shadow-dark-900/50"
+                className="w-64 md:w-80 rounded-3xl shadow-xl border-4 border-white"
               />
               
               {/* Trailer Play Button */}
@@ -105,10 +105,10 @@ export function AnimeDetailPage() {
                   href={anime.trailer.url || `https://youtube.com/watch?v=${anime.trailer.youtube_id}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="absolute inset-0 flex items-center justify-center bg-dark-900/60 
-                           opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"
+                  className="absolute inset-0 flex items-center justify-center bg-surface-900/60 
+                           opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"
                 >
-                  <div className="w-16 h-16 bg-accent-500 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-16 h-16 bg-accent-500 rounded-full flex items-center justify-center shadow-kawaii-lg">
                     <Play size={28} className="text-white ml-1" fill="currentColor" />
                   </div>
                 </a>
@@ -130,43 +130,43 @@ export function AnimeDetailPage() {
             className="flex-1 min-w-0"
           >
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-surface-800 mb-2">
               {anime.title}
             </h1>
             
             {anime.title_english && anime.title_english !== anime.title && (
-              <p className="text-xl text-dark-300 mb-4">{anime.title_english}</p>
+              <p className="text-xl text-surface-600 mb-4">{anime.title_english}</p>
             )}
 
             {anime.title_japanese && (
-              <p className="text-lg text-dark-400 mb-6">{anime.title_japanese}</p>
+              <p className="text-lg text-surface-600 mb-6">{anime.title_japanese}</p>
             )}
 
             {/* Stats */}
             <div className="flex flex-wrap items-center gap-4 mb-6">
               {anime.score && (
-                <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/10 rounded-xl border border-yellow-500/20">
-                  <Star className="text-yellow-400" size={20} fill="currentColor" />
-                  <span className="text-xl font-bold text-white">{anime.score}</span>
-                  <span className="text-dark-400 text-sm">
+                <div className="flex items-center gap-2 px-4 py-2 bg-yellow-100 rounded-2xl border-2 border-yellow-200">
+                  <Star className="text-yellow-500" size={20} fill="currentColor" />
+                  <span className="text-xl font-bold text-surface-800">{anime.score}</span>
+                  <span className="text-surface-600 text-sm">
                     ({anime.scored_by?.toLocaleString()} votes)
                   </span>
                 </div>
               )}
 
               {anime.rank && (
-                <div className="flex items-center gap-2 px-4 py-2 bg-primary-500/10 rounded-xl border border-primary-500/20">
-                  <Trophy className="text-primary-400" size={20} />
-                  <span className="font-bold text-white">#{anime.rank}</span>
-                  <span className="text-dark-400 text-sm">Ranked</span>
+                <div className="flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-2xl border-2 border-primary-200">
+                  <Trophy className="text-primary-500" size={20} />
+                  <span className="font-bold text-surface-800">#{anime.rank}</span>
+                  <span className="text-surface-600 text-sm">Ranked</span>
                 </div>
               )}
 
               {anime.popularity && (
-                <div className="flex items-center gap-2 px-4 py-2 bg-accent-500/10 rounded-xl border border-accent-500/20">
-                  <Users className="text-accent-400" size={20} />
-                  <span className="font-bold text-white">#{anime.popularity}</span>
-                  <span className="text-dark-400 text-sm">Popular</span>
+                <div className="flex items-center gap-2 px-4 py-2 bg-accent-100 rounded-2xl border-2 border-accent-200">
+                  <Users className="text-accent-500" size={20} />
+                  <span className="font-bold text-surface-800">#{anime.popularity}</span>
+                  <span className="text-surface-600 text-sm">Popular</span>
                 </div>
               )}
             </div>
@@ -183,41 +183,41 @@ export function AnimeDetailPage() {
             {/* Meta Info */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               {anime.type && (
-                <div className="flex items-center gap-3 p-3 bg-dark-800/50 rounded-xl">
-                  <Tv className="text-dark-400" size={20} />
+                <div className="flex items-center gap-3 p-3 bg-surface-100 rounded-2xl">
+                  <Tv className="text-surface-600" size={20} />
                   <div>
-                    <p className="text-xs text-dark-400">Type</p>
-                    <p className="font-medium text-white">{anime.type}</p>
+                    <p className="text-xs text-surface-600">Type</p>
+                    <p className="font-semibold text-surface-800">{anime.type}</p>
                   </div>
                 </div>
               )}
 
               {anime.episodes && (
-                <div className="flex items-center gap-3 p-3 bg-dark-800/50 rounded-xl">
-                  <Play className="text-dark-400" size={20} />
+                <div className="flex items-center gap-3 p-3 bg-surface-100 rounded-2xl">
+                  <Play className="text-surface-600" size={20} />
                   <div>
-                    <p className="text-xs text-dark-400">Episodes</p>
-                    <p className="font-medium text-white">{anime.episodes}</p>
+                    <p className="text-xs text-surface-600">Episodes</p>
+                    <p className="font-semibold text-surface-800">{anime.episodes}</p>
                   </div>
                 </div>
               )}
 
               {anime.duration && (
-                <div className="flex items-center gap-3 p-3 bg-dark-800/50 rounded-xl">
-                  <Clock className="text-dark-400" size={20} />
+                <div className="flex items-center gap-3 p-3 bg-surface-100 rounded-2xl">
+                  <Clock className="text-surface-600" size={20} />
                   <div>
-                    <p className="text-xs text-dark-400">Duration</p>
-                    <p className="font-medium text-white">{anime.duration}</p>
+                    <p className="text-xs text-surface-600">Duration</p>
+                    <p className="font-semibold text-surface-800">{anime.duration}</p>
                   </div>
                 </div>
               )}
 
               {anime.aired?.string && (
-                <div className="flex items-center gap-3 p-3 bg-dark-800/50 rounded-xl">
-                  <Calendar className="text-dark-400" size={20} />
+                <div className="flex items-center gap-3 p-3 bg-surface-100 rounded-2xl">
+                  <Calendar className="text-surface-600" size={20} />
                   <div>
-                    <p className="text-xs text-dark-400">Aired</p>
-                    <p className="font-medium text-white text-sm">{anime.aired.string}</p>
+                    <p className="text-xs text-surface-600">Aired</p>
+                    <p className="font-semibold text-surface-800 text-sm">{anime.aired.string}</p>
                   </div>
                 </div>
               )}
@@ -235,8 +235,8 @@ export function AnimeDetailPage() {
             {/* Synopsis */}
             {anime.synopsis && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Synopsis</h2>
-                <p className="text-dark-200 leading-relaxed whitespace-pre-line">
+                <h2 className="text-xl font-display font-bold text-surface-800 mb-3">Synopsis</h2>
+                <p className="text-surface-600 leading-relaxed whitespace-pre-line">
                   {anime.synopsis}
                 </p>
               </div>
@@ -245,7 +245,7 @@ export function AnimeDetailPage() {
             {/* Studios */}
             {anime.studios.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold text-white mb-3">Studios</h2>
+                <h2 className="text-xl font-display font-bold text-surface-800 mb-3">Studios</h2>
                 <div className="flex flex-wrap gap-2">
                   {anime.studios.map((studio) => (
                     <Badge key={studio.mal_id} variant="default">
@@ -261,7 +261,7 @@ export function AnimeDetailPage() {
               href={anime.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors"
+              className="inline-flex items-center gap-2 text-accent-600 hover:text-accent-700 font-semibold transition-colors"
             >
               View on MyAnimeList
               <ExternalLink size={16} />
@@ -272,4 +272,3 @@ export function AnimeDetailPage() {
     </>
   );
 }
-

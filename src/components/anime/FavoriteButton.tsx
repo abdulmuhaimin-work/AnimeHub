@@ -11,8 +11,8 @@ interface FavoriteButtonProps {
 }
 
 const sizeConfig = {
-  sm: { icon: 16, padding: 'p-1.5' },
-  md: { icon: 20, padding: 'p-2' },
+  sm: { icon: 16, padding: 'p-2' },
+  md: { icon: 20, padding: 'p-2.5' },
   lg: { icon: 24, padding: 'p-3' },
 };
 
@@ -38,10 +38,10 @@ export function FavoriteButton({
       whileTap={{ scale: 0.9 }}
       onClick={handleClick}
       className={`
-        ${config.padding} rounded-full
+        ${config.padding} rounded-xl
         ${isFav 
-          ? 'bg-accent-600/90 text-white' 
-          : 'bg-dark-800/80 text-dark-300 hover:text-accent-400 hover:bg-dark-700/80'
+          ? 'bg-accent-500 text-white shadow-kawaii' 
+          : 'bg-white text-surface-600 hover:text-accent-500 shadow-md border border-surface-300'
         }
         backdrop-blur-sm transition-colors duration-200
         flex items-center gap-2
@@ -60,11 +60,10 @@ export function FavoriteButton({
         />
       </motion.div>
       {showLabel && (
-        <span className="text-sm font-medium pr-1">
-          {isFav ? 'Favorited' : 'Favorite'}
+        <span className="text-sm font-semibold pr-1">
+          {isFav ? 'Saved' : 'Save'}
         </span>
       )}
     </motion.button>
   );
 }
-

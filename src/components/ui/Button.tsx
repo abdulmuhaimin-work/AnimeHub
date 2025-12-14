@@ -14,16 +14,15 @@ interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
 }
 
 const variants: Record<ButtonVariant, string> = {
-  primary: `bg-gradient-to-r from-primary-600 to-primary-700 
-            hover:from-primary-500 hover:to-primary-600
-            text-white shadow-lg shadow-primary-900/30
-            hover:shadow-primary-800/40`,
-  secondary: `bg-dark-700 hover:bg-dark-600 text-dark-50 
-              border border-dark-500/50 hover:border-dark-400/50`,
-  ghost: `bg-transparent hover:bg-dark-700/50 text-dark-100 hover:text-white`,
-  danger: `bg-gradient-to-r from-red-600 to-red-700 
+  primary: `bg-gradient-to-r from-accent-400 to-accent-500 
+            hover:from-accent-500 hover:to-accent-600
+            text-white shadow-kawaii hover:shadow-kawaii-lg`,
+  secondary: `bg-white hover:bg-surface-50 text-surface-700 
+              border-2 border-surface-300 hover:border-accent-300`,
+  ghost: `bg-transparent hover:bg-accent-50 text-surface-600 hover:text-accent-600`,
+  danger: `bg-gradient-to-r from-red-400 to-red-500 
            hover:from-red-500 hover:to-red-600
-           text-white shadow-lg shadow-red-900/30`,
+           text-white shadow-md`,
 };
 
 const sizes: Record<ButtonSize, string> = {
@@ -54,7 +53,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
         disabled={disabled || isLoading}
         className={`
-          inline-flex items-center justify-center font-medium rounded-xl
+          inline-flex items-center justify-center font-semibold rounded-2xl
           transition-all duration-200
           disabled:opacity-50 disabled:cursor-not-allowed
           ${variants[variant]}
@@ -97,4 +96,3 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = 'Button';
-
