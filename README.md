@@ -113,9 +113,9 @@ npm run dev
 ## 🎨 Design Decisions
 
 ### Theme & Design
-- **Light, Cartoonish Anime Style**: Vibrant color palette with pink and purple accents
+- **Light, Cartoonish Anime Style**: Vibrant color palette with green and blue accents
 - **Custom Tailwind Theme**: Extended color system with anime-inspired pastels
-- **Animated Background**: Meteor shower effect in hero section with twinkling stars
+- **Animated Background**: falling leaves effect in hero section
 - **Interactive Elements**: Hover effects on anime cards reveal synopsis
 
 ### State Management
