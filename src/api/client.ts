@@ -68,7 +68,10 @@ function getErrorMessage(error: AxiosError): string {
     return 'Network error. Please check your connection.';
   }
   
-  return error.message || 'An unexpected error occurred.';
+  // Don't expose raw error messages to users
+  // Log technical details to console for debugging
+  console.error('API Error:', error.message);
+  return 'An unexpected error occurred. Please try again later.';
 }
 
 export default apiClient;

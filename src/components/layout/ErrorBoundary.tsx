@@ -49,16 +49,8 @@ export class ErrorBoundary extends Component<Props, State> {
             </h2>
             
             <p className="text-surface-600 mb-6">
-              An unexpected error occurred. Please try again.
+              An unexpected error occurred. Please try again or refresh the page.
             </p>
-
-            {this.state.error && (
-              <div className="mb-6 p-4 bg-red-50 rounded-2xl border-2 border-red-100 text-left">
-                <code className="text-sm text-red-600 break-all">
-                  {this.state.error.message}
-                </code>
-              </div>
-            )}
 
             <Button
               onClick={this.handleRetry}
